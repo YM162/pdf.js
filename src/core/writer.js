@@ -205,6 +205,7 @@ function updateXFA({
 
   const encrypt = xref.encrypt;
   if (encrypt) {
+    //no se si esto es algo que ocurre, pero podria ser
     const transform = encrypt.createCipherTransform(
       xfaDatasetsRef.num,
       xfaDatasetsRef.gen

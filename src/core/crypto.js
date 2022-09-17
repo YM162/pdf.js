@@ -1382,7 +1382,7 @@ class CipherTransform {
     this.StringCipherConstructor = stringCipherConstructor;
     this.StreamCipherConstructor = streamCipherConstructor;
   }
-
+  //si llamo a createstream obtengo un DecryptStream
   createStream(stream, length) {
     const cipher = new this.StreamCipherConstructor();
     return new DecryptStream(

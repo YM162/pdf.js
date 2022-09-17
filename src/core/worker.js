@@ -221,6 +221,7 @@ class WorkerMessageHandler {
             docBaseUrl
           );
           pdfManagerCapability.resolve(newPdfManager);
+          
         } catch (ex) {
           pdfManagerCapability.reject(ex);
         }
@@ -431,6 +432,7 @@ class WorkerMessageHandler {
           pdfManager.onLoadedStream().then(function (stream) {
             handler.send("DataLoaded", { length: stream.bytes.byteLength });
           });
+          //volver aquí luego, pdfManager lo queremos.
         })
         .then(pdfManagerReady, onFailure);
     }
@@ -523,6 +525,15 @@ class WorkerMessageHandler {
       ]);
     });
 
+    handler.on("DecStream", function (data) {
+
+      return globalThis.guardemos.encrypt.createCipherTransform(data.objnum,data.gennum)["StreamCipherConstructor"]().encrypt(data.stream)
+    });
+    handler.on("GetXEntries", function (data) {
+
+      return globalThis.guardemos["entries"]
+   });
+
     handler.on("GetMarkInfo", function wphSetupGetMarkInfo(data) {
       return pdfManager.ensureCatalog("markInfo");
     });
@@ -550,6 +561,8 @@ class WorkerMessageHandler {
         );
       });
     });
+
+    
 
     handler.on("GetFieldObjects", function (data) {
       return pdfManager.ensureDoc("fieldObjects");

@@ -679,13 +679,22 @@ class Parser {
       this.shift();
     }
     this.shift(); // 'endstream'
-
+    //esto se llama cuando hay un stream
     stream = stream.makeSubStream(startPos, length, dict);
     if (cipherTransform) {
       stream = cipherTransform.createStream(stream, length);
     }
+    //console.log(stream)
     stream = this.filter(stream, dict, length);
+    //console.log(stream)
     stream.dict = dict;
+    
+    //func
+    
+    //este es un stream print en teoria para leer
+    
+    ////console.log(stream["str"]["buffer"].slice(0,stream["_rawMinBufferLength"]));
+    //global["streamlist"].push(stream);
     return stream;
   }
 

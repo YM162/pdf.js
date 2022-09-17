@@ -63,8 +63,12 @@ class BasePdfManager {
     return this.ensure(this.pdfDocument, prop, args);
   }
 
-  ensureXRef(prop, args) {
-    return this.ensure(this.pdfDocument.xref, prop, args);
+  ensureXRef() {
+    
+    
+    return this.pdfDocument.xref
+    
+    //return this.ensure(this.pdfDocument.xref,prop,args);
   }
 
   ensureCatalog(prop, args) {
@@ -141,6 +145,7 @@ class LocalPdfManager extends BasePdfManager {
 
     const stream = new Stream(data);
     this.pdfDocument = new PDFDocument(this, stream);
+    //casi seguro de que este es el que se usa
     this._loadedStreamPromise = Promise.resolve(stream);
   }
 

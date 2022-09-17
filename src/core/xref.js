@@ -95,6 +95,7 @@ class XRef {
         fileId,
         this.pdfManager.password
       );
+      //Aquí arriba el objeto encrypt tiene toda la info necesaria
     }
 
     // Get the root dictionary (catalog) object, and do some basic validation.
@@ -159,7 +160,7 @@ class XRef {
     // The parser goes through the entire stream << ... >> and provides
     // a getter interface for the key-value table
     let dict = parser.getObj();
-
+    
     // The pdflib PDF generator can generate a nested trailer dictionary
     if (!(dict instanceof Dict) && dict.dict) {
       dict = dict.dict;
@@ -170,6 +171,8 @@ class XRef {
       );
     }
     delete this.tableState;
+
+
 
     return dict;
   }

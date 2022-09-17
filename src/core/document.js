@@ -786,6 +786,9 @@ class PDFDocument {
     this.pdfManager = pdfManager;
     this.stream = stream;
     this.xref = new XRef(stream, pdfManager);
+    //Este de aquí es el punto en el que se introduce la XRef
+    //En este objeto xref hay una propiedad encrypt que puede
+    //que solo aparezca al hacer parse() 
     this._pagePromises = new Map();
     this._version = null;
 
@@ -813,6 +816,15 @@ class PDFDocument {
 
   parse(recoveryMode) {
     this.xref.parse(recoveryMode);
+    //este seria el momento en el que el xref adquiere el encrypt
+    
+    try{
+      //console.log("Palglobalthis",this.xref);
+      globalThis.guardemos = this.xref
+    }catch (error){
+      //console.log(error)
+
+    }
     this.catalog = new Catalog(this.pdfManager, this.xref);
 
     // The `checkHeader` method is called before this method and parses the

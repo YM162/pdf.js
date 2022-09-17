@@ -711,7 +711,7 @@ class PDFDocumentProxy {
     this._pdfInfo = pdfInfo;
     this._transport = transport;
   }
-
+  //El _transport es importante
   /**
    * @type {AnnotationStorage} Storage for annotation data in forms.
    */
@@ -931,6 +931,28 @@ class PDFDocumentProxy {
   getMetadata() {
     return this._transport.getMetadata();
   }
+
+/**
+   * @returns {Promise<{ xref: Object }>} A promise that is
+   *   resolved with an {Object} that has `info` and `metadata` properties.
+   *   `info` is an {Object} filled with anything available in the information
+   *   dictionary and similarly `metadata` is a {Metadata} object with
+   *   information from the metadata section of the PDF.
+   */
+ decStream(objnum,gennum,stream) {
+  return this._transport.decStream(objnum,gennum,stream);
+}
+
+/**
+   * @returns {Promise<{ xref: Object }>} A promise that is
+   *   resolved with an {Object} that has `info` and `metadata` properties.
+   *   `info` is an {Object} filled with anything available in the information
+   *   dictionary and similarly `metadata` is a {Metadata} object with
+   *   information from the metadata section of the PDF.
+   */
+ getXEntries() {
+  return this._transport.getXEntries();
+}
 
   /**
    * @typedef {Object} MarkInfo
@@ -2802,6 +2824,7 @@ class WorkerTransport {
     this.loadingTask.onUnsupportedFeature?.(featureId);
   }
 
+  //reinteresante este de aqui
   getData() {
     return this.messageHandler.sendWithPromise("GetData", null);
   }
@@ -2884,6 +2907,7 @@ class WorkerTransport {
       intent,
     });
   }
+  //cositas
 
   getFieldObjects() {
     return (this._getFieldObjectsPromise ||=
@@ -2987,6 +3011,23 @@ class WorkerTransport {
       }));
   }
 
+
+  //igual está bien pero hay que llamarlo desde otro sitio
+  decStream(objnum,gennum,stream) {
+
+      
+      return this.messageHandler.sendWithPromise("DecStream", {
+        objnum:objnum,
+        gennum:gennum,
+        stream:stream
+      })
+  }
+
+  getXEntries() {
+
+      
+    return this.messageHandler.sendWithPromise("GetXEntries", null)
+}
   getMarkInfo() {
     return this.messageHandler.sendWithPromise("GetMarkInfo", null);
   }
